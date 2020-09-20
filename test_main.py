@@ -68,3 +68,17 @@ def test_put_unvalid_task():
         'path', 'uuid_'], 'msg': 'value is not a valid uuid', 'type': 'type_error.uuid'}]}
 
 # ACERTOS 200
+
+
+def test_get_list_existent_task():
+    response = client.get('/task')
+    assert response.status_code == 200
+    # json da lista sempre vazia no começo
+    assert response.json() == {}
+
+
+def test_get_existent_task():
+    # json para existir uma task
+    response = client.post(
+        "/task", json={"description": "testing error", "completed": "False"})
+    assert response.status_code == 200
