@@ -1,5 +1,5 @@
 from fastapi.testclient import TestClient
-from main import app
+from .main import app
 import uuid
 
 client = TestClient(app)
@@ -89,7 +89,10 @@ def test_get_completed_task_list():
     assert response.json() == {response_true.json(): {
         "description": "testing error", "completed": True}}
     responsedelete1 = client.delete(f"/task/{response_true.json()}")
-    responsedelete1 = client.delete(f"/task/{response_false.json()}")
+    responsedelete2 = client.delete(f"/task/{response_false.json()}")
+    assert responsedelete1.status_code == 200
+    assert responsedelete2.status_code == 200
+
 
 
 def test_get_incompleted_task_list():
@@ -103,7 +106,10 @@ def test_get_incompleted_task_list():
     assert response.json() == {response_false.json(): {
         "description": "testing error", "completed": False}}
     responsedelete1 = client.delete(f"/task/{response_true.json()}")
-    responsedelete1 = client.delete(f"/task/{response_false.json()}")
+    responsedelete2 = client.delete(f"/task/{response_false.json()}")
+    assert responsedelete1.status_code == 200
+    assert responsedelete2.status_code == 200
+    
 
 
 def test_create_a_new_task():
